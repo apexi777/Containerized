@@ -1,12 +1,11 @@
-import React from "react";
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { sendDataToServer } from "../../services/service";
-
+import { sendDataToServer, updateUserOnServer } from "../../services/service";
 import "./Form.css";
 
-const Form = () => {
+const Form = ({ updateList, selectedUser, setSelectedUser }) => {
   const {
     register,
     control,
@@ -16,21 +15,42 @@ const Form = () => {
     reset,
   } = useForm();
 
+  useEffect(() => {
+    if (selectedUser) {
+      setValue("username", selectedUser.username);
+      setValue("telephone", selectedUser.telephone);
+      setValue("comment", selectedUser.comment);
+    }
+  }, [selectedUser, setValue]);
+
   const onSubmit = async (data) => {
     try {
-      await sendDataToServer(data);
+      if (selectedUser) {
+        await updateUserOnServer(selectedUser.id, data);
+        setSelectedUser(null);
+      } else {
+        await sendDataToServer(data);
+      }
       console.log("Form data submitted successfully");
       reset();
+      updateList();
     } catch (error) {
       console.error("Failed to submit form data:", error.message);
     }
+  };
+
+  const handleCancel = () => {
+    reset();
+    setSelectedUser(null);
   };
 
   return (
     <div className="container mt-5">
       <div className="card">
         <div className="card-body">
-          <h5 className="card-title">Form</h5>
+          <h5 className="card-title">
+            {selectedUser ? "Edit User" : "Add User"}
+          </h5>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group mb-3">
               <label htmlFor="username">Username:</label>
@@ -88,8 +108,17 @@ const Form = () => {
               )}
             </div>
             <button type="submit" className="btn btn-primary">
-              Submit
+              {selectedUser ? "Update" : "Submit"}
             </button>
+            {selectedUser && (
+              <button
+                type="button"
+                className="btn btn-secondary ml-2"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            )}
           </form>
         </div>
       </div>
