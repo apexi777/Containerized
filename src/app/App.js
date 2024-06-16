@@ -84,7 +84,7 @@ const App = () => {
       </div>
       <div className="mt-4">
         <List
-          users={searchResults.length ? searchResults : allUsers}
+          users={searchResults.length || value ? searchResults : allUsers}
           updateList={updateList}
           setSelectedUser={setSelectedUser}
           handleDelete={handleDelete}

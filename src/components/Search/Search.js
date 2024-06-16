@@ -1,20 +1,4 @@
 const Search = ({ value, setValue }) => {
-  // const [query, setQuery] = useState("");
-
-  // // const handleSearch = (e) => {
-  // //   e.preventDefault();
-  // //   onSearch(query);
-  // // };
-
-  // const setValue = (value) => {
-  //   setQuery(value);
-  //   onSearch(value);
-  // };
-
-  // useEffect(() => {
-  //   setQuery("");
-  // }, [allUsers]);
-
   return (
     <form className="mt-5">
       <div className="card">
