@@ -28,6 +28,7 @@ const Form = ({ updateList, selectedUser, setSelectedUser }) => {
       if (selectedUser) {
         await updateUserOnServer(selectedUser.id, data);
         setSelectedUser(null);
+        await updateList();
       } else {
         await sendDataToServer(data);
       }

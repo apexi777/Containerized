@@ -1,21 +1,7 @@
 import React from "react";
-import { deleteUserFromServer } from "../../services/service";
 import { FaTrash, FaEdit } from "react-icons/fa"; // Импортируем иконки
 
-const List = ({ users, updateList, setSelectedUser }) => {
-  const handleDelete = async (id) => {
-    try {
-      await deleteUserFromServer(id);
-      updateList();
-    } catch (error) {
-      console.error("Error deleting user:", error.message);
-    }
-  };
-
-  const handleEdit = (user) => {
-    setSelectedUser(user);
-  };
-
+const List = ({ users, handleEdit, handleDelete }) => {
   return (
     <div className="container mt-5">
       <h2 className="mb-4">User List</h2>

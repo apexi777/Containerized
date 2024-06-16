@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+const Search = ({ value, setValue }) => {
+  // const [query, setQuery] = useState("");
 
-const Search = ({ onSearch }) => {
-  const [query, setQuery] = useState("");
+  // // const handleSearch = (e) => {
+  // //   e.preventDefault();
+  // //   onSearch(query);
+  // // };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    onSearch(query);
-  };
+  // const setValue = (value) => {
+  //   setQuery(value);
+  //   onSearch(value);
+  // };
+
+  // useEffect(() => {
+  //   setQuery("");
+  // }, [allUsers]);
 
   return (
-    <form className="mt-5" onSubmit={handleSearch}>
+    <form className="mt-5">
       <div className="card">
         <div className="card-body">
           <div className="form-group mb-2">
@@ -17,11 +24,11 @@ const Search = ({ onSearch }) => {
               type="text"
               className="form-control"
               placeholder="Search..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
             />
           </div>
-          <button type="submit" className="btn btn-primary mb-2">
+          <button disabled type="submit" className="btn btn-primary mb-2">
             Search
           </button>
         </div>
