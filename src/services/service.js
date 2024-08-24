@@ -1,6 +1,11 @@
+// REACT_APP_API_SERVER=http://10.0.1.10:5000
+// const apiUrl = process.env.REACT_APP_API_SERVER;
+// const apiUrl = "/api";
+const apiUrl = "http://127.0.0.1:5000";
+
 const sendDataToServer = async (formData) => {
   try {
-    const response = await fetch("http://127.0.0.1:5000/add_user", {
+    const response = await fetch(`${apiUrl}/add_user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +28,7 @@ const sendDataToServer = async (formData) => {
 
 const fetchData = async () => {
   try {
-    const response = await fetch("http://127.0.0.1:5000/get_users");
+    const response = await fetch(`${apiUrl}/get_users`);
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -37,7 +42,7 @@ const fetchData = async () => {
 
 const updateUserOnServer = async (id, formData) => {
   try {
-    const response = await fetch(`http://127.0.0.1:5000/update_user/${id}`, {
+    const response = await fetch(`${apiUrl}/update_user/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +65,7 @@ const updateUserOnServer = async (id, formData) => {
 
 const deleteUserFromServer = async (id) => {
   try {
-    const response = await fetch(`http://127.0.0.1:5000/delete_user/${id}`, {
+    const response = await fetch(`${apiUrl}/delete_user/${id}`, {
       method: "DELETE",
     });
 
@@ -80,7 +85,7 @@ const deleteUserFromServer = async (id) => {
 const searchDatabase = async (query) => {
   try {
     const response = await fetch(
-      `http://127.0.0.1:5000/search?query=${encodeURIComponent(query)}`
+      `${apiUrl}/search?query=${encodeURIComponent(query)}`
     );
     if (!response.ok) {
       const errorDetails = await response.text(); // Получаем текст ошибки от сервера
