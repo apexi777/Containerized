@@ -4,7 +4,7 @@ const Search = ({ value, setValue }) => {
       <div className="card">
         <div className="card-body">
           <h5 className="card-title mb-4">
-            Search
+            Search:
           </h5>
           <div className="form-group mb-2">
           {/* <label htmlFor="username">Enter your search term:</label> */}
