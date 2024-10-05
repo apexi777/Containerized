@@ -1,7 +1,7 @@
 // REACT_APP_API_SERVER=http://10.0.1.10:5000
 // const apiUrl = process.env.REACT_APP_API_SERVER;
-// const apiUrl = "/api";
-const apiUrl = "http://127.0.0.1:5000";
+const apiUrl = "/api";
+// const apiUrl = "http://127.0.0.1:5000";
 
 const sendDataToServer = async (formData) => {
   try {
