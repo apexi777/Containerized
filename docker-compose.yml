@@ -1,21 +1,28 @@
-version: '3.8'
-
+version: '3'
 services:
-  react-app:
-    build:
-      context: ./app
-      dockerfile: Dockerfile
+  nginx:
+    image: nginx:stable-alpine
     ports:
       - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
+      - frontend
       - backend
+    networks:
+      - webnet
+
+  frontend:
+    build:
+      context: ./app
+    # expose:
+    #   - "80"
+    networks:
+      - webnet
 
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
     env_file:
       - .env
     environment:
@@ -23,8 +30,12 @@ services:
       - MYSQL_USER=${MYSQL_ROOT}
       - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DB=${MYSQL_DB}
+    # expose:
+    #   - "5000"
     depends_on:
       - database
+    networks:
+      - webnet
 
   database:
     build:
@@ -41,6 +52,12 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - webnet
 
 volumes:
   db_data:
+
+networks:
+  webnet:
+    driver: bridge

@@ -1,0 +1,34 @@
+# react-app-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+        - name: react-app
+          image: your-dockerhub/react-app:latest # Укажи имя образа на Docker Hub
+          ports:
+            - containerPort: 80
+---
+# react-app-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-app
+spec:
+  selector:
+    app: react-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer # Используй LoadBalancer для внешнего доступа к приложению
