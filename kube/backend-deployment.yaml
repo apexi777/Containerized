@@ -2,41 +2,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: flask-backend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: backend
+      app: flask-backend
   template:
     metadata:
       labels:
-        app: backend
+        app: flask-backend
     spec:
       containers:
-        - name: backend
-          image: your-dockerhub/flask-backend:latest # Укажи имя образа на Docker Hub
-          ports:
-            - containerPort: 5000
+        - name: flask-backend
+          image: localhost:5000/flask-backend:latest
           env:
             - name: MYSQL_HOST
-              value: database
+              value: "mysql-service"
             - name: MYSQL_USER
-              value: myuser
+              value: "root"
             - name: MYSQL_PASSWORD
-              value: mypassword
+              value: "password1root"
             - name: MYSQL_DB
-              value: users
+              value: "users"
+          ports:
+            - containerPort: 5000
 ---
-# backend-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: backend-service
 spec:
   selector:
-    app: backend
+    app: flask-backend
   ports:
     - protocol: TCP
       port: 5000
       targetPort: 5000
+  type: ClusterIP

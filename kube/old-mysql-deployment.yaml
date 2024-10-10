@@ -2,25 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: database
   template:
     metadata:
       labels:
-        app: mysql
+        app: database
     spec:
       containers:
         - name: mysql
-          image: localhost:5000/mysql-database:latest
+          image: mysql:8.0
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "password1root"
+              value: password
             - name: MYSQL_DATABASE
-              value: "users"
+              value: users
+            - name: MYSQL_USER
+              value: myuser
+            - name: MYSQL_PASSWORD
+              value: mypassword
           ports:
             - containerPort: 3306
           volumeMounts:
@@ -31,15 +35,16 @@ spec:
           persistentVolumeClaim:
             claimName: mysql-pvc
 ---
+# mysql-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service
+  name: database
 spec:
   selector:
-    app: mysql
+    app: database
   ports:
     - protocol: TCP
       port: 3306
       targetPort: 3306
-  type: ClusterIP
+  clusterIP: None # Это сделает сервис headless для StatefulSet
